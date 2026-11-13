@@ -64,6 +64,80 @@ LAYOUT
 53	DECIMAL	0	002C	002C	-1	-1	-1
 56	OEM_102	1	0491	0490	001C	-1	-1
 
+KEYNAME
+01 Esc
+0E Backspace
+0F Tab
+1C Enter
+1D Ctrl
+2A Shift
+36 "Right Shift"
+37 "Num *"
+38 Alt
+39 Space
+3A "Caps Lock"
+3B F1
+3C F2
+3D F3
+3E F4
+3F F5
+40 F6
+41 F7
+42 F8
+43 F9
+44 F10
+45 Pause
+46 "Scroll Lock"
+47 "Num 7"
+48 "Num 8"
+49 "Num 9"
+4A "Num -"
+4B "Num 4"
+4C "Num 5"
+4D "Num 6"
+4E "Num +"
+4F "Num 1"
+50 "Num 2"
+51 "Num 3"
+52 "Num 0"
+53 "Num Del"
+57 F11
+58 F12
+64 F13
+65 F14
+66 F15
+67 F16
+68 F17
+69 F18
+6A F19
+6B F20
+6C F21
+6D F22
+6E F23
+6F F24
+
+KEYNAME_EXT
+1C "Num Enter"
+1D "Right Ctrl"
+35 "Num /"
+37 "Print Screen"
+38 "Right Alt"
+45 "Num Lock"
+46 Break
+47 Home
+48 Up
+49 "Page Up"
+4B Left
+4D Right
+4F End
+50 Down
+51 "Page Down"
+52 Insert
+53 Delete
+5B "Left Windows"
+5C "Right Windows"
+5D Menu
+
 DESCRIPTIONS
 0409 Ukrainian AltGr
 0422 Українська AltGr
