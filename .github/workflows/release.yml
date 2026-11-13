@@ -1,0 +1,37 @@
+name: Publish keyboard installer
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $version = (Select-String -Path setup.iss -Pattern '^#define Version "([^"]+)"').Matches[0].Groups[1].Value
+          if ($env:GITHUB_REF_NAME -ne "v$version") { throw 'Tag and installer version must match' }
+          $archive = Join-Path $env:RUNNER_TEMP 'MSKLC.exe'
+          $extracted = Join-Path $env:RUNNER_TEMP 'keyboard-tools'
+          $toolkit = Join-Path $env:RUNNER_TEMP 'msklc-toolkit'
+          Invoke-WebRequest 'https://download.microsoft.com/download/6/f/5/6f5ce43a-e892-4fd1-b9a6-1a0cbb64e6e2/MSKLC.exe' -OutFile $archive
+          if ((Get-FileHash $archive).Hash -ne 'CD12A6B08066133DC4AD71BDCACCF1492E3D9A1DE93CF84B7B2824309F0D7255') {
+            throw 'Unexpected Microsoft toolkit checksum'
+          }
+          7z x $archive "-o$extracted" -y
+          if ($LASTEXITCODE -ne 0) { throw 'Toolkit extraction failed' }
+          $msi = Join-Path $extracted 'MSKLC\MSKLC.msi'
+          $process = Start-Process msiexec.exe -ArgumentList "/a `"$msi`" /qn TARGETDIR=`"$toolkit`"" -PassThru -Wait
+          if ($process.ExitCode -ne 0) { throw "MSI extraction failed ($($process.ExitCode))" }
+          $inno = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          .\build.ps1 -Toolkit $toolkit -InnoCompiler $inno
+      - name: Publish
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create $env:GITHUB_REF_NAME dist/Ukrainian-AltGr-x64.exe --verify-tag --title "Ukrainian AltGr $env:GITHUB_REF_NAME" --generate-notes
