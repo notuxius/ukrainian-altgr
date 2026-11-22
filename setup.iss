@@ -1,4 +1,4 @@
-#define Version "1.0.1"
+#define Version "1.0.2"
 #define LayoutKey "SYSTEM\CurrentControlSet\Control\Keyboard Layouts"
 #define LayoutID "a7720422"
 #define LayoutFile "ualtgr.dll"
