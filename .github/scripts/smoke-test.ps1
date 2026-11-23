@@ -62,6 +62,12 @@ if actual.replace(b"\r\n", b"\n") != expected.replace(b"\r\n", b"\n"):
     if ($LASTEXITCODE -ne 0) { throw 'Installed README verification failed' }
 }
 
+function Test-InstalledInput([string]$Phase) {
+    Write-Host "Checking AltGr typing and F24 after $Phase"
+    python -B (Join-Path $PSScriptRoot 'smoke-test-input.py')
+    if ($LASTEXITCODE -ne 0) { throw "Windows input verification failed after $Phase" }
+}
+
 function Remove-TestInstall($App, [string]$Phase) {
     Invoke-Setup ($App.UninstallString.Trim('"')) $Phase
     $paths = @($layoutKey, $appKey, $App.InstallLocation) + @($installedDlls.Values)
@@ -84,7 +90,8 @@ foreach ($path in @($layoutKey, $appKey) + @($installedDlls.Values)) {
 Invoke-Setup $installer.FullName 'clean-install' -Install
 $clean = Get-InstalledLayout $version
 Test-BuiltPayload $clean
-Write-Host "Clean $version install passed DLL, README, and registration checks"
+Test-InstalledInput 'the clean install'
+Write-Host "Clean $version install passed the smoke checks"
 Remove-TestInstall $clean 'clean-uninstall'
 
 $previous = Join-Path $env:RUNNER_TEMP "Ukrainian-AltGr-v$baselineVersion.exe"
@@ -100,5 +107,6 @@ if ($upgraded.InstallLocation -ne $baseline.InstallLocation -or $upgraded.Uninst
     throw 'Upgrade did not reuse the previous install'
 }
 Test-BuiltPayload $upgraded
-Write-Host "Upgrade from $baselineVersion to $version passed DLL, README, and registration checks"
+Test-InstalledInput 'the upgrade'
+Write-Host "Upgrade from $baselineVersion to $version passed the smoke checks"
 Remove-TestInstall $upgraded 'upgrade-uninstall'

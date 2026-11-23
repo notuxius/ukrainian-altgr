@@ -43,15 +43,15 @@ jobs:
           architecture: x64
       - name: Verify x64 layout
         run: python -B -O verify.py --layout build/amd64/ualtgr.dll
+      - name: Smoke test installer lifecycle
+        shell: pwsh
+        run: .\.github\scripts\smoke-test.ps1 -BuildCommit $env:GITHUB_SHA
       - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
           architecture: x86
       - name: Verify WOW64 layout
         run: python -B -O verify.py --layout build/wow64/ualtgr.dll
-      - name: Smoke test installer lifecycle
-        shell: pwsh
-        run: .\.github\scripts\smoke-test.ps1 -BuildCommit $env:GITHUB_SHA
       - uses: actions/upload-artifact@v6
         if: github.ref_type == 'tag'
         with:
