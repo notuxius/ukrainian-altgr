@@ -5,8 +5,13 @@ A native Ukrainian keyboard layout for x64 Windows 10 and 11, with the key posit
 ## Install
 
 1. Download and run `Ukrainian-AltGr-x64.exe` from [Releases](https://github.com/notuxius/ukrainian-altgr/releases/latest). Approve the Windows administrator prompt.
-2. Open **Settings → Time & language**. Under **Language & region** (Windows 10: **Language**), open **Ukrainian → Language options → Add a keyboard** and choose **Ukrainian AltGr**. Add the Ukrainian language first if needed. Sign out and back in if the layout list was already open and hasn't refreshed.
-3. Choose **Ukrainian AltGr** with **Win+Space**.
+2. Open **Settings** and follow the path for your Windows version. If **Ukrainian** is missing, select **Add a language** on the **Language** or **Language & region** page and install it first.
+
+   - **Windows 10** — **Time & Language → Language → Ukrainian → Options**
+   - **Windows 11** — **Time & language → Language & region → Ukrainian → More options (…) → Language options**
+
+3. Select **Add a keyboard → Ukrainian AltGr**. Sign out and back in if the keyboard list was already open and hasn't refreshed.
+4. Press **Win+Space** until **Ukrainian AltGr** is selected in the input switcher.
 
 To remove it, select another layout, remove Ukrainian AltGr in the same language options, then uninstall **Ukrainian AltGr keyboard layout** from Installed apps. Windows may request a restart if the layout is in use.
 
