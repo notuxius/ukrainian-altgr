@@ -49,21 +49,9 @@ jobs:
           architecture: x86
       - name: Verify WOW64 layout
         run: python -B -O verify.py --layout build/wow64/ualtgr.dll
-      - name: Check packaged DLLs
+      - name: Smoke test installer lifecycle
         shell: pwsh
-        run: |
-          $log = Join-Path $env:RUNNER_TEMP 'ualtgr-setup.log'
-          $installer = Join-Path $PWD 'dist\Ukrainian-AltGr-x64.exe'
-          $process = Start-Process $installer -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', "/LOG=`"$log`"" -WindowStyle Hidden -PassThru -Wait
-          if ($process.ExitCode -ne 0) {
-            if (Test-Path -LiteralPath $log) { Get-Content -LiteralPath $log }
-            throw "Installer test failed ($($process.ExitCode))"
-          }
-          foreach ($target in @{amd64 = 'System32'; wow64 = 'SysWOW64'}.GetEnumerator()) {
-            $built = Get-FileHash -LiteralPath "build\$($target.Key)\ualtgr.dll"
-            $installed = Get-FileHash -LiteralPath "$env:windir\$($target.Value)\ualtgr.dll"
-            if ($built.Hash -ne $installed.Hash) { throw "Packaged DLL differs for $($target.Key)" }
-          }
+        run: .\.github\scripts\smoke-test.ps1 -BuildCommit $env:GITHUB_SHA
       - uses: actions/upload-artifact@v6
         if: github.ref_type == 'tag'
         with:
