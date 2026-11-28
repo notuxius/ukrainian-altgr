@@ -40,3 +40,7 @@ Use Microsoft Keyboard Layout Creator 1.4 and Inno Setup 6 on Windows. Put `ISCC
 After building, run `python -O verify.py` with 64-bit Python for the x64 DLL or 32-bit Python for the WOW64 DLL. Both are checked against the expected SVK typing behavior and this project's shortcut labels. Pass the path to a trusted SVK DLL of matching architecture as an optional argument to compare its typing tables directly.
 
 [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134) · [Inno Setup](https://jrsoftware.org/isinfo.php)
+
+## License
+
+The [MIT License](LICENSE) applies to this project’s original implementation and packaging. The typing behavior follows the Ukrainian SVK layout credited above.
